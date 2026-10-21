@@ -23,10 +23,10 @@ class Menu:
         self.all_dish_name = [i.stem for i in self.dish_path.iterdir()]
         # 菜单背景图
         self.menu_background = Image.open(
-            Path(__file__).parent / "menu_res" / "menu_bg.jpg"
+            Path(__file__).parent / "menu_res" / "menu_bg.png"
         )
         # 字体大小
-        self.font_size = 30
+        self.font_size = 70
         # 加载字体
         self.menu_font = ImageFont.truetype(
             str(Path(__file__).parent / "menu_res" / "FZSJ-QINGCRJ.TTF"), self.font_size
@@ -58,7 +58,7 @@ class Menu:
                     break
                 # 生成菜单序号+名字，（居中显示）
                 draw.text(
-                    ((self.menu_bg_size[0] - 300) // 2, 75 + j * (self.font_size + 10)),
+                    ((self.menu_bg_size[0] - 500) // 2, 80 + j * (self.font_size + 10)),
                     f"{i * line_num + j + 1}.{self.all_dish_name[i * line_num + j]}",
                     font=self.menu_font,
                     fill="black",

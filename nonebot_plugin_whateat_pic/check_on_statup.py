@@ -10,11 +10,7 @@ from rich.progress import Progress
 from .config import config
 
 available_urls = [
-    "https://raw.githubusercontent.com/Cvandia/nonebot-plugin-whateat-pic/",
-    "https://fastly.jsdelivr.net/gh/Cvandia/nonebot-plugin-whateat-pic@",
-    "https://raw.gitmirror.com/Cvandia/nonebot-plugin-whateat-pic/",
-    "https://ghproxy.cfd/https:/raw.githubusercontent.com/Cvandia/nonebot-plugin-whateat-pic/",
-    "https://ghfast.top/https:/raw.githubusercontent.com/Cvandia/nonebot-plugin-whateat-pic/",
+    
 ]
 
 
@@ -109,7 +105,10 @@ driver = get_driver()
 async def on_startup():
     logger.info("Checking resources...")
     task = asyncio.create_task(check_resource())
-    await task
+    try:
+        await task
+    except Exception as e:
+        logger.warning(f"Resource check failed, skipping startup download: {type(e).__name__}: {e}")
 
 
 # 测试代码

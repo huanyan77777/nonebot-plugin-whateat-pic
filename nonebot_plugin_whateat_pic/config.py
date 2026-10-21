@@ -4,8 +4,8 @@ from pydantic import BaseModel, Field
 
 
 class Config(BaseModel):
-    whateat_cd: int = Field(default=10)
-    whateat_max: int = Field(default=0)
+    whateat_cd: int = Field(default=3)
+    whateat_max: int = Field(default=10)
     whatpic_res_path: str = Field(default=str(store.get_plugin_cache_dir()))
 
 

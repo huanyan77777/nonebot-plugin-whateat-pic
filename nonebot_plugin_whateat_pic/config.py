@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 class Config(BaseModel):
     whateat_cd: int = Field(default=3)
     whateat_max: int = Field(default=10)
+    whateat_auto_download: bool = Field(default=False)
     whatpic_res_path: str = Field(default=str(store.get_plugin_cache_dir()))
 
 

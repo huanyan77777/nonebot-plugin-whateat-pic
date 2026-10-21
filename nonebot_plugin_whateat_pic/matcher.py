@@ -35,7 +35,12 @@ async def fetch_image_bytes(
     if img.raw:
         return img.raw_bytes
     if img.path:
-        return Path(img.path).read_bytes()
+        try:
+            async with aiofiles.open(img.path, "rb") as f:
+                return await f.read()
+        except OSError as e:
+            logger.warning(f"Failed to read menu image: {type(e).__name__}")
+            return None
 
     image_url = img.url
     if not image_url and img.id and bot.adapter.get_name() == "OneBot V11":
@@ -43,7 +48,7 @@ async def fetch_image_bytes(
             image_url = (await bot.call_api("get_image", file=img.id))["url"]
         except Exception as e:
             logger.warning(
-                f"Failed to resolve OneBot image url: {type(e).__name__}: {e}"
+                f"Failed to resolve OneBot image url: {type(e).__name__}"
             )
             return None
 
@@ -56,7 +61,7 @@ async def fetch_image_bytes(
             resp.raise_for_status()
             return resp.content
     except httpx.HTTPError as e:
-        logger.warning(f"Failed to download menu image: {type(e).__name__}: {e}")
+        logger.warning(f"Failed to download menu image: {type(e).__name__}")
         return None
 
 

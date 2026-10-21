@@ -10,11 +10,17 @@ from rich.progress import Progress
 from .config import config
 
 available_urls = [
-    
+    "https://raw.githubusercontent.com/Cvandia/nonebot-plugin-whateat-pic/",
 ]
 
 
 async def check_resource():
+    if not config.whateat_auto_download:
+        logger.info("Automatic resource download disabled; using local menu resources.")
+        return
+    if not available_urls:
+        logger.warning("No resource download URLs configured; using local resources.")
+        return
     semaphore = asyncio.Semaphore(10)
 
     async def _download(client: httpx.AsyncClient, name: str):
@@ -28,7 +34,7 @@ async def check_resource():
                         return resp.content
                 except httpx.HTTPError:
                     pass
-            logger.warning(f"{url} download failed!")
+            logger.warning(f"Resource download failed: {name}")
             return None
 
     # 下载资源列表
